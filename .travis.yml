@@ -511,7 +511,7 @@ jobs:
         - MAVEN_PROJECTS='!processing,!indexing-hadoop,!indexing-service,!extensions-core/kafka-indexing-service,!extensions-core/kinesis-indexing-service,!server,!web-console,!integration-tests'
 
     - &test_other_modules_arm64
-      <<: *test_processing_module
+      <<: *test_processing_module_arm64
       name: "(openjdk8) other modules test"
       arch: arm64
       env:
