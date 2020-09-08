@@ -128,6 +128,7 @@ jobs:
         - sudo add-apt-repository ppa:deadsnakes/ppa
         - sudo apt-get update && sudo apt-get install python3.6 python3-pip python3-setuptools -y
         - python3.6 -m pip install wheel  # install wheel first explicitly
+        - sudo pip3 install pyyaml==5.3.1
         - python3.6 -m pip install pyyaml
       script:
         - >
@@ -467,14 +468,6 @@ jobs:
       arch: amd64
       jdk: openjdk11
       install:
-        - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
-          export MVN_HOME=$HOME/apache-maven-3.6.3;
-          wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P $HOME;
-          tar xzvf $HOME/apache-maven-3.6.3-bin.tar.gz -C $HOME;
-          export PATH=$MVN_HOME/bin:$PATH;
-          sudo apt-get install openjdk-11-jdk;
-          export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64;
-          fi
         - MAVEN_OPTS='-Xmx3000m' travis_wait 30 ${MVN} clean install -q -ff ${MAVEN_SKIP} ${MAVEN_SKIP_TESTS} -T1C
     - <<: *test_server_module
       name: "(openjdk11) server module test"
@@ -486,8 +479,7 @@ jobs:
           wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P $HOME;
           tar xzvf $HOME/apache-maven-3.6.3-bin.tar.gz -C $HOME;
           export PATH=$MVN_HOME/bin:$PATH;
-          sudo apt-get install openjdk-11-jdk;
-          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-arm64;
+          export JAVA_HOME=/usr/lib/jvm/adoptopenjdk-11-hotspot-arm64;
           fi 
         - MAVEN_OPTS='-Xmx3000m' travis_wait 30 ${MVN} clean install -q -ff ${MAVEN_SKIP} ${MAVEN_SKIP_TESTS} -T1C
 
